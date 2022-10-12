@@ -37,6 +37,8 @@ contract LiquidityPool is ReentrancyGuard {
     //The token (usually a stablecoin such as DAI that is accepted as a deposit to contribute to a user's poolOwnerBalance)
     // address public depositToken = address(0x0);
     IERC20 private _depositToken;
+    
+    
 
     //The options market contract that is allowed to request the liquidity of this pool to it if it follows the rule fo the pool
     address public optionsMarketContract = address(0x0);
