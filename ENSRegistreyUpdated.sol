@@ -42,3 +42,4 @@ contract NameRegistry {
     return names[name];
   }
 }
+
