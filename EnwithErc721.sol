@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract BionicOwlsEns is ERC721, ERC721Burnable, Ownable {
+contract EnwithErc721 is ERC721, ERC721Burnable, Ownable {
 
     mapping(address => string) public addresses;
     mapping(string => address) public names;
@@ -50,6 +50,22 @@ contract BionicOwlsEns is ERC721, ERC721Burnable, Ownable {
     nameCreationStatus[newOwner] = true;
   }
 
+  function ChangeName(string memory NewName, string memory name) public 
+  {
+      require(names[name] == msg.sender, "You don't own this name");
+      NameToId[NewName] = NameToId[name];
+      IdToName[NameToId[name]] = NewName;
+      creators[NewName] = msg.sender;
+      names[NewName] = msg.sender;
+      addresses[msg.sender] = NewName;
+      creators[name] = address(0);
+      names[name] = address(0);
+      NameToId[name] = 0;
+      
+      
+      
+  }
+
   function deleteName(string memory name) public {
     require(names[name] == msg.sender, "You don't own this name");
     addresses[msg.sender] = "";
@@ -59,7 +75,6 @@ contract BionicOwlsEns is ERC721, ERC721Burnable, Ownable {
     //Make Sure you set name to id to be zero also
     IdToName[NameToId[name]] = "";
     NameToId[name] = 0;
-    burn(NameToId[name]);
   }
 
   function getCreator(string memory name) public view returns (address) {
