@@ -3,11 +3,16 @@ pragma solidity ^0.8.9;
 
 contract BetCode {
     uint256 public RandomWin;
-
-    mapping(address => uint256) public  GetPlayerBet;
+    //Struct for the name and betcode
+    struct BetStruct {
+        string name;
+        uint256 betcode;
+  }
+    mapping(address => BetStruct) public  GetPlayerBet;
     mapping(address => bool) public IsCorrect;
     //Function to make a bet 
-    function MakeABet(uint256 betNumber, uint256 BetPrice ) public payable {
+    function MakeABet(uint256 betNumber, uint256 BetPrice, string calldata name ) public payable {
+        GetPlayerBet[msg.sender] = BetStruct(name,betNumber);
         RandomWin = RandonPicker();
         //Convert PaidValue to Eth
         uint256 PaidValue = BetPrice * 2 * 1 ether;
@@ -29,7 +34,8 @@ contract BetCode {
     function RandonPicker() public view returns (uint) {
        return uint(keccak256(abi.encodePacked(block.timestamp))) % 2 + 1;
     }
-
+    
     receive() external payable {}
 
 }
+
