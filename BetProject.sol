@@ -12,6 +12,7 @@ contract BetCode {
     mapping(address => bool) public IsCorrect;
     //Function to make a bet 
     function MakeABet(uint256 betNumber, uint256 BetPrice, string calldata name ) public payable {
+    //Mapping the values to the struct
         GetPlayerBet[msg.sender] = BetStruct(name,betNumber);
         RandomWin = RandonPicker();
         //Convert PaidValue to Eth
