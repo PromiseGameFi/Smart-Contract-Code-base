@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-contract Ens {
+contract BionicOwlsEns {
   mapping(address => string) public addresses;
   mapping(string => address) public names;
   mapping(string => address) public creators;
   mapping(address => bool) public nameCreationStatus;
   mapping(string => uint256) public namePrices;
+  string[] public allNames;
   string[] public allNamesForSale;
   
-  
+   
   function createName(string memory name) public {
     require(names[name] == address(0), "Name already exists");
     require(!nameCreationStatus[msg.sender], "You have already created a name");
@@ -17,7 +18,9 @@ contract Ens {
     creators[name] = msg.sender;
     names[name] = msg.sender;
     addresses[msg.sender] = name;
+    allNames.push(name);
     nameCreationStatus[msg.sender] = true;
+
   }
 
   function transferName(string memory name, address newOwner) public {
@@ -74,14 +77,14 @@ contract Ens {
 
         (bool success, ) = payable(owner).call{value: msg.value}("");
         require(success, "Transfer failed.");
-        deleteNameFromAllNames(name);
+        deleteNameFromAllNamesForSale(name);
     }
 
     function getAllNames() public view returns (string[] memory) {
         return allNamesForSale;
     }
 
-    function deleteNameFromAllNames(string memory name) internal {
+    function deleteNameFromAllNamesForSale(string memory name) internal {
         for (uint i = 0; i < allNamesForSale.length; i++) {
           if (keccak256(bytes(allNamesForSale[i])) == keccak256(bytes(name))) {
             allNamesForSale[i] = allNamesForSale[allNamesForSale.length - 1];
@@ -91,5 +94,14 @@ contract Ens {
         }
     }
 
+    function deleteNameFromAllNames(string memory name) internal {
+        for (uint i = 0; i < allNames.length; i++) {
+          if (keccak256(bytes(allNames[i])) == keccak256(bytes(name))) {
+            allNames[i] = allNames[allNames.length - 1];
+            allNames.pop();
+            break;
+          }
+        }
+    }
 
 }
