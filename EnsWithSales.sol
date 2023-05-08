@@ -7,7 +7,7 @@ contract Ens {
   mapping(string => address) public creators;
   mapping(address => bool) public nameCreationStatus;
   mapping(string => uint256) public namePrices;
-  string[] public allNames;
+  string[] public allNamesForSale;
   
   
   function createName(string memory name) public {
