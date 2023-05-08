@@ -50,7 +50,7 @@ contract Ens {
     function setNamePrice(string memory name, uint256 price) public {
         require(names[name] == msg.sender, "You don't own this name");
         namePrices[name] = price;
-        allNames.push(name);
+        allNamesForSale.push(name);
     }
 
     function DeListName(string memory name) public {
@@ -78,21 +78,18 @@ contract Ens {
     }
 
     function getAllNames() public view returns (string[] memory) {
-        return allNames;
+        return allNamesForSale;
     }
 
     function deleteNameFromAllNames(string memory name) internal {
-        for (uint i = 0; i < allNames.length; i++) {
-          if (keccak256(bytes(allNames[i])) == keccak256(bytes(name))) {
-            allNames[i] = allNames[allNames.length - 1];
-            allNames.pop();
+        for (uint i = 0; i < allNamesForSale.length; i++) {
+          if (keccak256(bytes(allNamesForSale[i])) == keccak256(bytes(name))) {
+            allNamesForSale[i] = allNamesForSale[allNamesForSale.length - 1];
+            allNamesForSale.pop();
             break;
           }
         }
     }
-
-
-
 
 
 }
