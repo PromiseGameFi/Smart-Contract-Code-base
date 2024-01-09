@@ -8,6 +8,8 @@ contract MyToken {
     uint8 public decimals;
     uint256 public totalSupply;
 
+
+
     mapping(address => uint256) public balanceOf;
     mapping(address => bool) public excludedFromFees;
     address public DexWallet;
