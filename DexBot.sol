@@ -10,6 +10,8 @@ contract SimpleTradingBot is Ownable {
     uint256 public sellPrice; // Price at which to sell
     uint256 public balance;
 
+//Set token address with erc20 token only
+
     constructor(address _tokenAddress) {
         token = IERC20(_tokenAddress);
     }
